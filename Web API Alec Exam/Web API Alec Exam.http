@@ -1,6 +1,75 @@
 @Web_API_Alec_Exam_HostAddress = http://localhost:5284
 
-GET {{Web_API_Alec_Exam_HostAddress}}/weatherforecast/
+### Get all ads
+GET {{Web_API_Alec_Exam_HostAddress}}/ads
 Accept: application/json
 
-###
+
+### Get one ad
+GET {{Web_API_Alec_Exam_HostAddress}}/ads/1
+Accept: application/json
+
+
+### Create new ad
+POST {{Web_API_Alec_Exam_HostAddress}}/ads
+Content-Type: application/json
+{
+  "Title": "New Ad Test",
+  "Description": "Description Test",
+  "Price": "1000"
+}
+### Create new ad FAIL
+POST {{Web_API_Alec_Exam_HostAddress}}/ads
+Content-Type: application/json
+{
+  "Title": "New Ad Test",
+  "Description": "Description Test",
+  "Price": "100001"
+}
+
+
+### Update an ad
+PUT {{Web_API_Alec_Exam_HostAddress}}/ads/1
+Content-Type: application/json
+{
+  "Title": "Updated Ad Test",
+  "Description": "Description updated Test",
+  "Price": "1.55"
+}
+
+### Update an ad FAIL
+PUT {{Web_API_Alec_Exam_HostAddress}}/ads/1
+Content-Type: application/json
+{
+  "Title": "Updated Ad Test",
+  "Description": "Description updated Test"
+}
+
+### Delete an ad
+DELETE {{Web_API_Alec_Exam_HostAddress}}/ads/1
+
+### Delete an ad FAIL
+DELETE {{Web_API_Alec_Exam_HostAddress}}/ads/-1
+
+
+### Patch an ad
+PATCH {{Web_API_Alec_Exam_HostAddress}}/ads/3
+Content-Type: application/json
+[
+  {
+    "op": "replace",
+    "path": "/Title",
+    "value": "Selling Hannes' REALLY old socks!"
+  }
+]
+
+### Patch an ad FAIL
+PATCH {{Web_API_Alec_Exam_HostAddress}}/ads/3
+Content-Type: application/json
+[
+  {
+    "op": "replace",
+    "path": "/Id",
+    "value": "500"
+  }
+]

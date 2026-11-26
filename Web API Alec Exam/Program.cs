@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using Web_API_Alec_Exam.Data;
+
 namespace Web_API_Alec_Exam
 {
     public class Program
@@ -9,11 +12,21 @@ namespace Web_API_Alec_Exam
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddNewtonsoftJson();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddTransient<DataInitializer>();
+
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                scope.ServiceProvider.GetService<DataInitializer>().MigrateData();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
